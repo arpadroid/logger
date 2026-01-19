@@ -1,0 +1,60 @@
+{
+    "author": "Andres Vaquero (@arpadroid) <web.andresvaquero@gmail.com> ",
+    "name": "@arpadroid/logger",
+    "type": "module",
+    "version": "0.0.1",
+    "exports": "./src/index.mjs",
+    "main": "./src/index.mjs",
+    "types": "./src/types.d.ts",
+    "files": [
+        "src/",
+        "README.md",
+        "LICENSE"
+    ],
+    "description": "Terminal logging helpers with consistent styling and task-oriented output.",
+    "keywords": [
+        "logger",
+        "terminal",
+        "cli",
+        "chalk",
+        "logging",
+        "arpadroid"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/arpadroid/logger.git"
+    },
+    "homepage": "https://github.com/arpadroid/logger#readme",
+    "bugs": {
+        "url": "https://github.com/arpadroid/logger/issues"
+    },
+    "scripts": {
+        "clean:install": "npm run clean && npm install",
+        "clean": "rm -rf ./dist ./node_modules package-lock.json",
+        "lint": "eslint src/**/*.{js,mjs}",
+        "prepublishOnly": "npm run test && npm run lint",
+        "test:coverage": "jest --coverage",
+        "test:watch": "jest --watch",
+        "test": "jest --coverage"
+    },
+    "license": "MIT",
+    "engines": {
+        "node": ">=16.0.0",
+        "npm": ">=8.0.0"
+    },
+    "devDependencies": {
+        "@babel/preset-env": "^7.23.9",
+        "@eslint/js": "^9.39.1",
+        "@jest/globals": "^30.2.0",
+        "@types/jest": "^30.0.0",
+        "@types/node": "^25.0.1",
+        "babel-jest": "^30.2.0",
+        "eslint": "^9.39.1",
+        "globals": "^16.5.0",
+        "jest": "^30.2.0",
+        "prettier": "^3.7.4"
+    },
+    "dependencies": {
+        "chalk": "^5.3.0"
+    }
+}
