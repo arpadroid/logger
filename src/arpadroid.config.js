@@ -1,5 +1,5 @@
 export default {
-    buildTypes: false,
+    buildTypes: true,
     buildJS: false,
     buildStyles: false
 };
