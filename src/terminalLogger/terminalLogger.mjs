@@ -125,7 +125,7 @@ export function logInfo(text) {
  * @param {string} text - The warning message.
  */
 export function logWarning(text) {
-    console.warn(warningLog(text));
+    console.warn(`⚠️  ${warningLog(text)}`);
 }
 
 // #endregion
@@ -224,6 +224,7 @@ export function logArpadroid(logo = arpadroidLog()) {
 export const log = {
     clearLast,
     error: logError,
+    warning: logWarning,
     success: logSuccess,
     info: logInfo,
     task: logTask,
