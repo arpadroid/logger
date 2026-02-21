@@ -101,7 +101,7 @@ export function clearLast() {
  * @param {*} [payload] - Additional payload to log.
  */
 export function logError(text, payload) {
-    console.error('🚫 ' + errorLog(text), payload);
+    console.error(`🚫 ${errorLog(text)}`, payload);
 }
 
 /**
@@ -109,7 +109,7 @@ export function logError(text, payload) {
  * @param {string} text - The success message.
  */
 export function logSuccess(text) {
-    console.log(successLog(text));
+    console.log(`\n✅ ${successLog(text)}\n`);
 }
 
 /**
@@ -117,7 +117,7 @@ export function logSuccess(text) {
  * @param {string} text - The informational message.
  */
 export function logInfo(text) {
-    console.log(infoLog(text));
+    console.log(`ℹ️ ${infoLog(text)}`);
 }
 
 /**
@@ -125,7 +125,7 @@ export function logInfo(text) {
  * @param {string} text - The warning message.
  */
 export function logWarning(text) {
-    console.warn(`⚠️  ${warningLog(text)}`);
+    console.warn(`⚠️ ${warningLog(text)}`);
 }
 
 // #endregion
@@ -219,6 +219,19 @@ export function logArpadroid(logo = arpadroidLog()) {
     console.log(chalk.hex('#cce2f8')(logo));
 }
 
+/**
+ * Logs a list of items with a specified bullet point.
+ * @param {string[]} items - The list of items to log.
+ * @param {{bullet?: string, spaceOut?: boolean}} [config] - The configuration object.
+ */
+export function logList(items, config = {}) {
+    const { bullet = '•', spaceOut = true } = config;
+    spaceOut && console.log('\n');
+    const out = items.map(item => `  ${bullet} ${item}`).join('\n');
+    console.log(out);
+    spaceOut && console.log('\n');
+}
+
 // #region Log Exports
 
 export const log = {
@@ -228,7 +241,8 @@ export const log = {
     success: logSuccess,
     info: logInfo,
     task: logTask,
-    arpadroid: logArpadroid
+    arpadroid: logArpadroid,
+    list: logList
 };
 
 export const logStyle = {
