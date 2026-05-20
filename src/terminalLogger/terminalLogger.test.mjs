@@ -17,9 +17,7 @@ import {
     depLog,
     taskSubjectLog,
     logTask,
-    arpadroidLog,
-    arpadroidLogBordered,
-    logArpadroid,
+    logArpadroidProject,
     log,
     logStyle
 } from './terminalLogger.mjs';
@@ -48,6 +46,13 @@ describe('terminalLogger styles', () => {
 });
 
 describe('terminalLogger methods', () => {
+    test('logArpadroid writes to console.log', () => {
+        const spy = jest.spyOn(console, 'log').mockImplementation(() => undefined);
+        logArpadroidProject('test project');
+        expect(spy).toHaveBeenCalled();
+        spy.mockRestore();
+    });
+    
     test('clearLast calls stdout cursor methods', () => {
         const originalMoveCursor = process.stdout.moveCursor;
         const originalClearLine = process.stdout.clearLine;
@@ -97,15 +102,7 @@ describe('terminalLogger methods', () => {
     });
 
     test('arpadroid ASCII helpers return strings', () => {
-        expect(arpadroidLog()).toEqual(expect.stringContaining('┓'));
-        expect(arpadroidLogBordered()).toEqual(expect.stringContaining('---'));
-    });
-
-    test('logArpadroid writes to console.log', () => {
-        const spy = jest.spyOn(console, 'log').mockImplementation(() => undefined);
-        logArpadroid();
-        expect(spy).toHaveBeenCalled();
-        spy.mockRestore();
+        expect(logArpadroidProject()).toEqual(expect.stringContaining('┓'));
     });
 
     test('grouped exports expose expected methods', () => {

@@ -1,4 +1,5 @@
 import chalk from 'chalk';
+import { getAsciiText } from './asciiTypo.mjs';
 
 // #region Log Styles
 
@@ -53,7 +54,7 @@ export function successLog(text) {
  * @returns {string} - The styled text.
  */
 export function mutedLog(text) {
-    return chalk.gray(text);
+    return chalk.hex('#8bbec9')(text);
 }
 
 /**
@@ -97,8 +98,8 @@ export function clearLast() {
 
 /**
  * Logs an error message with an optional payload.
- * @param {string} text - The error message.
- * @param {*} [payload] - Additional payload to log.
+ * @param {string} text
+ * @param {*} [payload]
  */
 export function logError(text, payload) {
     console.error(`🚫 ${errorLog(text)}`, payload);
@@ -106,7 +107,7 @@ export function logError(text, payload) {
 
 /**
  * Logs a success message.
- * @param {string} text - The success message.
+ * @param {string} text
  */
 export function logSuccess(text) {
     console.log(`\n✅ ${successLog(text)}\n`);
@@ -114,15 +115,15 @@ export function logSuccess(text) {
 
 /**
  * Logs an informational message.
- * @param {string} text - The informational message.
+ * @param {string} text
  */
 export function logInfo(text) {
-    console.log(`ℹ️ ${infoLog(text)}`);
+    console.log(`ℹ️  ${infoLog(text)}`);
 }
 
 /**
  * Logs a warning message.
- * @param {string} text - The warning message.
+ * @param {string} text
  */
 export function logWarning(text) {
     console.warn(`⚠️ ${warningLog(text)}`);
@@ -134,8 +135,8 @@ export function logWarning(text) {
 
 /**
  * Returns a styled package log text.
- * @param {string} text - The text to style.
- * @returns {string} - The styled text.
+ * @param {string} text
+ * @returns {string}
  */
 export function pkgLog(text) {
     return chalk.bold.underline.hex('#85c0fb')(text);
@@ -143,8 +144,8 @@ export function pkgLog(text) {
 
 /**
  * Returns a styled dependency log text.
- * @param {string} text - The text to style.
- * @returns {string} - The styled text.
+ * @param {string} text
+ * @returns {string}
  */
 export function depLog(text) {
     return chalk.bold.underline.hex('#d9b4fe')(text);
@@ -152,9 +153,9 @@ export function depLog(text) {
 
 /**
  * Returns a styled task subject text.
- * @param {string} text - The text to style.
- * @param {string} prefix The prefix to add to the text.
- * @returns {string} - The styled text.
+ * @param {string} text
+ * @param {string} prefix
+ * @returns {string}
  */
 export function taskSubjectLog(text, prefix = '@arpadroid/') {
     return `[${subjectLog(prefix)}${depLog(text)}] =>`;
@@ -162,8 +163,8 @@ export function taskSubjectLog(text, prefix = '@arpadroid/') {
 
 /**
  * Logs a task with a subject and text.
- * @param {string} subject - The subject of the task.
- * @param {string} text - The text of the task.
+ * @param {string} subject
+ * @param {string} text
  */
 export function logTask(subject, text) {
     console.log(taskSubjectLog(subject), taskLog(text));
@@ -172,57 +173,21 @@ export function logTask(subject, text) {
 // #endregion
 
 /**
- * Returns an Arpadroid ASCII art.
- * @returns {string} - The ASCII art.
- */
-export function arpadroidLog() {
-    return `            ┓    • ┓  
-   ┏┓┏┓┏┓┏┓┏┫┏┓┏┓┓┏┫  
-   ┗┻┛ ┣┛┗┻┗┻┛ ┗┛┗┗┻  
- ------┛---------------  `;
-}
-
-/**
- * Returns a bordered Arpadroid ASCII art.
- * @returns {string} - The bordered ASCII art.
- */
-export function arpadroidLogBordered() {
-    return ` ---------------------------
-               ┓    • ┓  
-      ┏┓┏┓┏┓┏┓┏┫┏┓┏┓┓┏┫  
-      ┗┻┛ ┣┛┗┻┗┻┛ ┗┛┗┗┻  
-          ┛              
- ---------------------------`;
-}
-
-export function abc() {
-    return `
-  ┓   ┓  ┏  ┓ ••┓ ┓                                      
-┏┓┣┓┏┏┫┏┓╋┏┓┣┓┓┓┃┏┃┏┳┓┏┓┏┓┏┓┏┓┏┓┏╋┓┏┓┏┓┏┏┓┏┓             
-┗┻┗┛┗┗┻┗ ┛┗┫┛┗┗┃┛┗┗┛┗┗┛┗┗┛┣┛┗┫┛ ┛┗┗┻┗┛┗┻┛┗┫┗             
-           ┛   ┛          ┛  ┗            ┛    
-`;
-}
-
-export function ABC() {
-    return `
-┏┓┳┓┏┓┳┓┏┓┏┓┏┓┓┏┳┏┳┓┏┓┓ ┳┳┓┳┓┏┓┏┓┏┓┳┓┏┓┏┳┓┳┳┓┏┓ ┏┏┓┏┓┓┏┏┓
-┣┫┣┫┃ ┃┃┣ ┣ ┃┓┣┫┃ ┃┃┫ ┃ ┃┃┃┃┃┃┃┃┃┃┃┣┫┗┓ ┃ ┃┃┃┃┃┃┃ ┃┃ ┗┫┏┛
-┛┗┻┛┗┛┻┛┗┛┻ ┗┛┛┗┻┗┛┛┗┛┗┛┛ ┗┛┗┗┛┣┛┗┻┛┗┗┛ ┻ ┗┛┗┛┗┻┛┗┛┗┛┗┛┗┛`;
-}
-
-/**
  * Logs the Arpadroid ASCII art.
- * @param {string} [logo] - The ASCII art to log.
+ * @param {string} [projectName]
+ * @param {string} [prefix]
+ * @returns {string}
  */
-export function logArpadroid(logo = arpadroidLog()) {
-    console.log(chalk.hex('#cce2f8')(logo));
+export function logArpadroidProject(projectName = '', prefix = 'arpadroid ') {
+    const text = chalk.hex('#cce2f8')(getAsciiText(`${prefix}${projectName}`));
+    console.log(text);
+    return text;
 }
 
 /**
  * Logs a list of items with a specified bullet point.
- * @param {string[]} items - The list of items to log.
- * @param {{bullet?: string, spaceOut?: boolean}} [config] - The configuration object.
+ * @param {string[]} items
+ * @param {{bullet?: string, spaceOut?: boolean}} [config]
  */
 export function logList(items, config = {}) {
     const { bullet = '•', spaceOut = true } = config;
@@ -241,7 +206,7 @@ export const log = {
     success: logSuccess,
     info: logInfo,
     task: logTask,
-    arpadroid: logArpadroid,
+    arpadroid: logArpadroidProject,
     list: logList
 };
 
