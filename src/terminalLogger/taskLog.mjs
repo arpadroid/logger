@@ -108,8 +108,11 @@ export function taskSubjectLog(text, config = {}) {
         icon = `${icon} `;
     } else if (icon.length === 1) {
         icon = `${icon}  `;
+    } else if (icon.length === 0) {
+        icon = `${icon}   `;
     }
-    return `[${depLog(text)}] ${separator} ${icon}`;
+
+    return `(${depLog(text)}) ${separator} ${icon} -`;
 }
 
 /**
