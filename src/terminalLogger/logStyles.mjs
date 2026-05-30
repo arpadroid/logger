@@ -16,7 +16,7 @@ export function headingLog(text) {
  * @returns {string} - The styled text.
  */
 export function mutedLog(text) {
-    return chalk.hex(colors.mutedCyan)(text);
+    return chalk.hex(colors.mediumGray)(text);
 }
 
 /**

@@ -10,11 +10,15 @@ export type AsciiFontConfigType = {
 export type AsciiFontRecordType = Record<string, AsciiFontConfigType>;
 
 export type TaskLogConfigType = {
-    stamp?: string;
     promise?: Promise<unknown>;
     separator?: string;
     icon?: string;
-    progressPendingIcon?: string;
+    progressIcon?: string;
     progressDoneIcon?: string;
     successIcon?: string;
+    doneMessage?: string | (() => string);
+    startTime?: number;
+    runTime?: number;
+    showProgress?: boolean;
+    timingThresHolds?: [number, number, number, number];
 };
