@@ -8,3 +8,13 @@ export type AsciiFontConfigType = {
 };
 
 export type AsciiFontRecordType = Record<string, AsciiFontConfigType>;
+
+export type TaskLogConfigType = {
+    stamp?: string;
+    promise?: Promise<unknown>;
+    separator?: string;
+    icon?: string;
+    progressPendingIcon?: string;
+    progressDoneIcon?: string;
+    successIcon?: string;
+};

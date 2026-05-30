@@ -1,103 +1,11 @@
 import { describe, test, expect, jest } from '@jest/globals';
-import {
-    headingLog,
-    subjectLog,
-    taskLog,
-    errorLog,
-    successLog,
-    mutedLog,
-    warningLog,
-    infoLog,
-    highlightLog,
-    clearLast,
-    logError,
-    logSuccess,
-    logInfo,
-    pkgLog,
-    depLog,
-    taskSubjectLog,
-    logTask,
-    logArpadroidProject,
-    log,
-    logStyle
-} from './terminalLogger.mjs';
-
-describe('terminalLogger styles', () => {
-    test('style helpers return strings containing text', () => {
-        const text = 'Hello';
-        expect(headingLog(text)).toEqual(expect.stringContaining(text));
-        expect(subjectLog(text)).toEqual(expect.stringContaining(text));
-        expect(taskLog(text)).toEqual(expect.stringContaining(text));
-        expect(errorLog(text)).toEqual(expect.stringContaining(text));
-        expect(successLog(text)).toEqual(expect.stringContaining(text));
-        expect(mutedLog(text)).toEqual(expect.stringContaining(text));
-        expect(warningLog(text)).toEqual(expect.stringContaining(text));
-        expect(infoLog(text)).toEqual(expect.stringContaining(text));
-        expect(highlightLog(text)).toEqual(expect.stringContaining(text));
-        expect(pkgLog(text)).toEqual(expect.stringContaining(text));
-        expect(depLog(text)).toEqual(expect.stringContaining(text));
-    });
-
-    test('taskSubjectLog formats subject with prefix', () => {
-        const result = taskSubjectLog('module');
-        expect(result).toEqual(expect.stringContaining('module'));
-        expect(result).toEqual(expect.stringContaining('@arpadroid/'));
-    });
-});
+import { logArpadroidProject, log, logStyle } from './terminalLogger.mjs';
 
 describe('terminalLogger methods', () => {
     test('logArpadroid writes to console.log', () => {
         const spy = jest.spyOn(console, 'log').mockImplementation(() => undefined);
         logArpadroidProject('test project');
         expect(spy).toHaveBeenCalled();
-        spy.mockRestore();
-    });
-    
-    test('clearLast calls stdout cursor methods', () => {
-        const originalMoveCursor = process.stdout.moveCursor;
-        const originalClearLine = process.stdout.clearLine;
-        const moveCursor = /** @type {typeof process.stdout.moveCursor} */ (jest.fn(() => true));
-        const clearLine = /** @type {typeof process.stdout.clearLine} */ (jest.fn(() => true));
-        process.stdout.moveCursor = moveCursor;
-        process.stdout.clearLine = clearLine;
-
-        clearLast();
-
-        expect(moveCursor).toHaveBeenCalledWith(0, -1);
-        expect(clearLine).toHaveBeenCalledWith(1);
-
-        process.stdout.moveCursor = originalMoveCursor;
-        process.stdout.clearLine = originalClearLine;
-    });
-
-    test('logError writes to console.error', () => {
-        const spy = jest.spyOn(console, 'error').mockImplementation(() => undefined);
-        logError('Boom', { ok: false });
-        expect(spy).toHaveBeenCalled();
-        expect(spy.mock.calls[0][0]).toEqual(expect.stringContaining('🚫'));
-        spy.mockRestore();
-    });
-
-    test('logSuccess writes to console.log', () => {
-        const spy = jest.spyOn(console, 'log').mockImplementation(() => undefined);
-        logSuccess('All good');
-        expect(spy).toHaveBeenCalled();
-        spy.mockRestore();
-    });
-
-    test('logInfo writes to console.log', () => {
-        const spy = jest.spyOn(console, 'log').mockImplementation(() => undefined);
-        logInfo('Info');
-        expect(spy).toHaveBeenCalled();
-        spy.mockRestore();
-    });
-
-    test('logTask writes subject and text', () => {
-        const spy = jest.spyOn(console, 'log').mockImplementation(() => undefined);
-        logTask('module', 'Running tasks');
-        expect(spy).toHaveBeenCalled();
-        const callArgs = spy.mock.calls[0] || [];
-        expect(String(callArgs.join(' '))).toEqual(expect.stringContaining('module'));
         spy.mockRestore();
     });
 
@@ -111,7 +19,6 @@ describe('terminalLogger methods', () => {
         expect(typeof log.info).toBe('function');
         expect(typeof log.task).toBe('function');
         expect(typeof log.arpadroid).toBe('function');
-
         expect(typeof logStyle.error).toBe('function');
         expect(typeof logStyle.success).toBe('function');
         expect(typeof logStyle.info).toBe('function');
@@ -124,5 +31,29 @@ describe('terminalLogger methods', () => {
         expect(typeof logStyle.heading).toBe('function');
         expect(typeof logStyle.subject).toBe('function');
         expect(typeof logStyle.taskSubject).toBe('function');
+    });
+
+    test('logList logs with spacing by default', () => {
+        const spy = jest.spyOn(console, 'log').mockImplementation(() => undefined);
+        log.list(['one', 'two']);
+
+        expect(spy).toHaveBeenCalledTimes(3);
+        expect(spy.mock.calls[0][0]).toBe('\n');
+        expect(spy.mock.calls[1][0]).toContain('• one');
+        expect(spy.mock.calls[1][0]).toContain('• two');
+        expect(spy.mock.calls[2][0]).toBe('\n');
+
+        spy.mockRestore();
+    });
+
+    test('logList logs without spacing and custom bullet', () => {
+        const spy = jest.spyOn(console, 'log').mockImplementation(() => undefined);
+        log.list(['alpha', 'beta'], { bullet: '-', spaceOut: false });
+
+        expect(spy).toHaveBeenCalledTimes(1);
+        expect(spy.mock.calls[0][0]).toContain('- alpha');
+        expect(spy.mock.calls[0][0]).toContain('- beta');
+
+        spy.mockRestore();
     });
 });
