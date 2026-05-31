@@ -1,10 +1,13 @@
+/* eslint-disable security/detect-non-literal-fs-filename */
 /**
  * @typedef {import('../types.js').TaskLogConfigType} TaskLogConfigType
  */
 
 import chalk from 'chalk';
 import colors from '../colors.js';
+import { formatBytes } from '@arpadroid/tools-iso';
 import * as stamps from './stamps.mjs';
+import { statSync } from 'fs';
 
 //////////////////////////////
 // #region Task Log Styles
@@ -77,6 +80,17 @@ export function durationLog(startTime, config = {}) {
 }
 
 /**
+ * Returns a styled file size log text.
+ * @param {string} filePath
+ * @returns {string}
+ */
+export function fileSizeLog(filePath) {
+    const size = statSync(filePath).size;
+    const formattedSize = formatBytes(size);
+    return chalk.hex(colors.paleCyan)(`[💾 ${formattedSize}]`);
+}
+
+/**
  * Returns a styled task log text.
  * @param {string} text
  * @param {TaskLogConfigType} [config]
@@ -96,14 +110,11 @@ export function taskLog(text, config) {
 }
 
 /**
- * Returns a styled task subject text.
- * @param {string} text
- * @param {TaskLogConfigType} [config]
+ * Normalizes an icon string to ensure consistent spacing in logs.
+ * @param {string} icon
  * @returns {string}
  */
-export function taskSubjectLog(text, config = {}) {
-    const { separator = '=>' } = config;
-    let { icon = stamps.bashStamp } = config;
+export function normalizeIcon(icon) {
     if (icon.length === 2) {
         icon = `${icon} `;
     } else if (icon.length === 1) {
@@ -111,8 +122,28 @@ export function taskSubjectLog(text, config = {}) {
     } else if (icon.length === 0) {
         icon = `${icon}   `;
     }
+    return icon;
+}
 
-    return `(${depLog(text)}) ${separator} ${icon} -`;
+/**
+ * Returns a styled task subject text.
+ * @param {string} text
+ * @param {TaskLogConfigType} [config]
+ * @returns {string}
+ */
+export function taskSubjectLog(text, config = {}) {
+    const { symbolColor = colors.darkNeon } = config;
+    const { separator = chalk.hex(symbolColor)(':'), paddingSymbol = chalk.hex(symbolColor)('-') } = config;
+    let { icon = stamps.bashStamp } = config;
+    icon = normalizeIcon(icon);
+    const padSize = 12;
+    const padding = padSize - text.length;
+    const padString = (padding > 0 && paddingSymbol.repeat(padding)) || '';
+    const opening = chalk.hex(symbolColor)('[');
+    const closing = chalk.hex(symbolColor)(']');
+    const arrow = chalk.hex(symbolColor)('->');
+    const subjectString = `${opening}${depLog(text)}${closing}`;
+    return `${padString}${subjectString}${separator} ${icon}${arrow}`;
 }
 
 /**

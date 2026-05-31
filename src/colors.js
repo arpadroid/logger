@@ -1,13 +1,19 @@
 const colors = {
     arpadroidAsciiBlue: '#cce2f8',
     cssLogo: '#623194',
+    darkestGray: '#0d0d0d',
     darkGray: '#333333',
-    lightGray: '#cccccc',
-    mediumGray: '#666666',
+    darkNeon: '#252359',
+    green: '#00ff00',
+    greenMuted: '#90ee90',
     lightBlue: '#85c0fb',
+    lightGray: '#cccccc',
     lightGreen: '#90ee90',
     lightViolet: '#d9b4fe',
+    mediumGray: '#666666',
     mutedCyan: '#8bbec9',
+    orange: '#ffa500',
+    orangeMuted: '#ffb347',
     paleCyan: '#b7f2ff',
     red: '#ff0000',
     redMuted: '#ff6666',
@@ -15,10 +21,6 @@ const colors = {
     typescriptBlue: '#3178c6',
     yellow: '#ffff00',
     yellowMuted: '#ffff99',
-    orange: '#ffa500',
-    orangeMuted: '#ffb347',
-    green: '#00ff00',
-    greenMuted: '#90ee90'
 };
 
 export default colors;

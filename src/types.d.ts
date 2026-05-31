@@ -21,4 +21,6 @@ export type TaskLogConfigType = {
     runTime?: number;
     showProgress?: boolean;
     timingThresHolds?: [number, number, number, number];
+    paddingSymbol?: string;
+    symbolColor?: string;
 };
