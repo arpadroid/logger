@@ -21,6 +21,7 @@ const colors = {
     typescriptBlue: '#3178c6',
     yellow: '#ffff00',
     yellowMuted: '#ffff99',
+    violetMedium: '#ba55d3',
 };
 
 export default colors;

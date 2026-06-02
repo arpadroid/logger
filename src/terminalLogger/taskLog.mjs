@@ -132,7 +132,7 @@ export function normalizeIcon(icon) {
  * @returns {string}
  */
 export function taskSubjectLog(text, config = {}) {
-    const { symbolColor = colors.darkNeon } = config;
+    const { symbolColor = colors.violetMedium } = config;
     const { separator = chalk.hex(symbolColor)(':'), paddingSymbol = chalk.hex(symbolColor)('-') } = config;
     let { icon = stamps.bashStamp } = config;
     icon = normalizeIcon(icon);
