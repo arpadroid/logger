@@ -7,7 +7,7 @@ import chalk from 'chalk';
 import colors from '../colors.js';
 import { formatBytes } from '@arpadroid/tools-iso';
 import * as stamps from './stamps.mjs';
-import { statSync } from 'fs';
+import { existsSync, statSync } from 'fs';
 
 //////////////////////////////
 // #region Task Log Styles
@@ -76,7 +76,7 @@ export function durationLog(startTime, config = {}) {
         }
     }
 
-    return `[⏱️  ${chalk.hex(color)(duration.toFixed(2))}s]`;
+    return `[⏱️  - ${chalk.hex(color)(duration.toFixed(2))}s]`;
 }
 
 /**
@@ -85,9 +85,14 @@ export function durationLog(startTime, config = {}) {
  * @returns {string}
  */
 export function fileSizeLog(filePath) {
-    const size = statSync(filePath).size;
-    const formattedSize = formatBytes(size);
-    return chalk.hex(colors.paleCyan)(`[💾 ${formattedSize}]`);
+    let sizeStr = '';
+    if (!existsSync(filePath)) {
+        sizeStr = 'Not found';
+    } else {
+        const size = statSync(filePath).size;
+        sizeStr = formatBytes(size);
+    }
+    return chalk.hex(colors.paleCyan)(`[💾 - ${sizeStr}]`);
 }
 
 /**
